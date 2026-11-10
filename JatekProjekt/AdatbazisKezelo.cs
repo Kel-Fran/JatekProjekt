@@ -1,29 +1,32 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace JatekProjekt
 {
 
-    public class AdatbazisKezelo
+    public struct AdatbazisKezelo
     {
-        private readonly string connectionString;
+        private const string k_ConnectionString = "server=localhost;user=root;password=pwd;database=JatekDb";
 
-
-        public AdatbazisKezelo()
-        {
-
-            this.connectionString = "";// Irjuk meg a connectionstringet a megfelelő adatbázisra hivatkozva
-        }
-
-   
         /// Beolvassa az összes karaktert az adatbázisból egy List<Karakter>-be.
        
         public List<Karakter> AdatokBetoltese()
         {
             var karakterek = new List<Karakter>();
-            
+
+            using var connection = new MySqlConnection(k_ConnectionString);
+            connection.Open();
+
+            using var cmd = new MySqlCommand("SELECT * FROM Karakterek", connection);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read()) karakterek.Add(new(
+                                                     Id      : Convert.ToInt32(reader["Id"]),
+                                                     Nev     : reader["Nev"].ToString(),
+                                                     Osztaly : reader["Osztaly"].ToString(),
+                                                     Szint   : Convert.ToInt32("Szint"),
+                                                     Arany   : Convert.ToInt32("Arany"),
+                                                     Szerver : reader["Szerver"].ToString()
+                                                 ));
+
             return karakterek;
         }
     }

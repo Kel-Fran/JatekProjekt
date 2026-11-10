@@ -22,8 +22,8 @@ namespace JatekProjekt
                                                      Id      : Convert.ToInt32(reader["Id"]),
                                                      Nev     : reader["Nev"].ToString(),
                                                      Osztaly : reader["Osztaly"].ToString(),
-                                                     Szint   : Convert.ToInt32("Szint"),
-                                                     Arany   : Convert.ToInt32("Arany"),
+                                                     Szint   : Convert.ToInt32(reader["Szint"]),
+                                                     Arany   : Convert.ToInt32(reader["Arany"]),
                                                      Szerver : reader["Szerver"].ToString()
                                                  ));
 

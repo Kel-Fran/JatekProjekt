@@ -12,7 +12,7 @@ public readonly struct KarakterElemzo
         karakterek = dbKezelo.AdatokBetoltese();
     }
 
-    public List<string> MagasSzintuKarakterek() => karakterek.Where(x => x.Szint >= 40).Select(x => x.Nev);
+    public List<string> MagasSzintuKarakterek() => karakterek.Where(x => x.Szint >= 40).Select(x => x.Nev).ToList();
 
     // Gyűjtsd ki az összes "Mágus" osztályú karakter nevét!
     public List<string> MagusOsztalyuNevek() => karakterek.Where(x => x.Osztaly.Equals("Mágus")).Select(x => x.Nev).ToList();
@@ -37,30 +37,20 @@ public readonly struct KarakterElemzo
     public double AtlagSzint() => karakterek.Average(x => x.Szint);
 
     // Állapítsd meg Any segítségével, hogy van-e olyan "Tolvaj" osztályú karakter, akinek a szintje eléri vagy meghaladja a 40-et!
-    public bool VaneMagasSzintuTolvaj() => karakterek.Where(x => x.Osztaly.Equals("Tolvaj") && c.Szint >= 40).Select(x => x.Nev).ToList();
+    public bool VaneMagasSzintuTolvaj() => karakterek.Any(x => x.Osztaly.Equals("Tolvaj") && x.Szint >= 40);
 
     // Ellenőrizd Any segítségével, hogy létezik-e olyan karakter, akinek 10 000 aranynál több van a zsebében!
-    public bool VanETizEzerAranynalTobb()
-    {
-        throw new NotImplementedException();
-    }
+    public bool VanETizEzerAranynalTobb() => karakterek.Any(x => x.Arany > 10_000);
 
     // Keresd meg FirstOrDefault segítségével az első olyan karaktert, akinek az aranya meghaladja az 5000-et!
-    public Karakter LegelsoOvenKarakter()
-    {
-        throw new NotImplementedException();
-    }
-
+    public Karakter LegelsoOvenKarakter() => karakterek.FirstOrDefault(x => x.Arany > 5000);
 
     // ==========================================
     // 3. RENDEZÉsek ÉS KERESÉsek
     // ==========================================
 
     // Add vissza az összes karaktert szint szerint csökkenő, azon belül pedig név szerint növekvő sorrendbe rendezve!
-    public List<Karakter> KarakterekSzintSzerintRendezve()
-    {
-        throw new NotImplementedException();
-    }
+    public List<Karakter> KarakterekSzintSzerintRendezve() => karakterek.OrderByDescending(x => x.Szint).ThenBy(x => x.Nev).ToList();
 
     // Keresd meg OrderByDescending és FirstOrDefault segítségével annak a karakternek a nevét, akinek a legtöbb aranya van!
     public string LeggazdagabbKarakterNeve()
